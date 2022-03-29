@@ -1,0 +1,50 @@
+<div class=container>
+  <div class='row'>
+    <div>
+      <h2>商品詳細</h2>
+    </div>
+  </div>
+</div>
+
+<div class='container'>
+  <div class='row'>
+    <div class='col-md-4'>
+      <%= attachment_image_tag @item,:image_id,:fill,360,360,format:'jpeg' %>
+    </div>
+    <div class='col-md-8'>
+      <table class='table table-hover'>
+        <tbody>
+          <tr>
+            <%= link_to '編集', edit_admin_item_path(@item), class: 'btn btn-primary mb-3' %>
+          </tr>
+          <tr>
+            <th>商品名</th>
+            <td><%= @item.name %></td>
+          </tr>
+          <tr>
+            <th>商品説明</th>
+            <td><%= @item.introduction %></td>
+          </tr>
+          <tr>
+            <th>ジャンル</th>
+            <td><%= @item.genre.name %></td>
+          </tr>
+          <tr>
+            <th>税込価格(税抜)</th>
+            <td><%= @item.add_tax_price.to_s(:delimited) %>円(<%= @item.price %>円)</td>
+          </tr>
+          <tr>
+            <th>販売ステータス</th>
+            <td>
+              <% if @item.is_active == "on_sale" %>
+                <span class='text-success'><%= @item.is_active_i18n %></span>
+              <% else %>
+                <span class='text-secondary'><%= @item.is_active_i18n %></span>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

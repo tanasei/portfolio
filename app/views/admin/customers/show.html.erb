@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="order-detail text-center">
+        <h4><%= @customer.last_name %>さんの会員詳細</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+   <div class="col-md-8">
+      <table class="table">
+       <tr>
+        <th>会員ID</th><td><%= @customer.id %></td>
+       </tr>
+       <tr>
+        <th>氏名</th><td><%= @customer.last_name %><%= @customer.first_name %></td>
+       </tr>
+       <tr>
+        <th>フリガナ</th><td><%= @customer.last_name_kana %><%= @customer.first_name_kana %></td>
+       </tr>
+       <tr>
+        <th>郵便番号</th><td><%= @customer.post_code%></td>
+       </tr>
+       <tr>
+        <th>住所</th><td><%= @customer.address%></td>
+       </tr>
+       <tr>
+        <th>電話番号</th><td><%= @customer.telephon_number%></td>
+       </tr>
+       <tr>
+        <th>メールアドレス</th><td><%= @customer.email%></td>
+       </tr>
+       <tr>
+        <th>会員ステータス</th>
+        <td>
+         <% if @customer.is_deleted == false %>
+          <font color="#528fff">有効</font>
+         <% else %>
+          <font color="red">退会済</font>
+         <% end %>
+         </td>
+       </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div>
+     <%= link_to "編集する", edit_admin_customer_path(@customer) , class: "btn btn-sm btn-success" %>
+    </div>
+  </div>
+</div>

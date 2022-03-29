@@ -1,0 +1,34 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/"><span>KOKUBYA-KU</span></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+        <% if admin_signed_in? %>
+        <!--管理者がログインしている時-->
+          <li><%= link_to "商品一覧", admin_items_path, class: 'fas fa-birthday-cake nav-link text-light' %></li>
+          <li><%= link_to "会員一覧", admin_customers_path, class: 'fas fa-users nav-link text-light' %></li>
+          <li><%= link_to "注文履歴一覧", admin_root_path, class: 'fas fa-list nav-link text-light' %></li>
+          <li><%= link_to "ジャンル一覧", admin_genres_path, class: 'fas fa-candy-cane nav-link text-light' %></li>
+          <li><%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: 'fas fa-sign-out-alt nav-link text-light' %></li>
+        <% elsif customer_signed_in? %>
+        <!--顧客がログインしている時-->
+          <li><%= link_to "マイページ", public_customers_path(current_customer), class: 'fas fa-user nav-link text-light' %></li>
+          <li><%= link_to "商品一覧", public_items_path, class: 'fas fa-birthday-cake nav-link text-light' %></li>
+          <li><%= link_to "カート", public_cart_items_path, class: 'fas fa-shopping-cart nav-link text-light' %></li>
+          <li><%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'fas fa-sign-out-alt nav-link text-light' %></li>
+        <% else %>
+        <!--ログイン前-->
+          <li><%= link_to "About", home_about_path, class: 'fas fa-link nav-link text-light' %></li>
+          <li><%= link_to "商品一覧", public_items_path, class: 'fas fa-birthday-cake nav-link text-light' %></li>
+          <li><%= link_to "新規登録", new_customer_registration_path, class: 'fas fa-user-plus nav-link text-light' %></li>
+          <li><%= link_to "ログイン", new_customer_session_path, class: 'fas fa-sign-in-alt nav-link text-light' %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

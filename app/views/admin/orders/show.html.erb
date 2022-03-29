@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="row-header">
+    <div class="col-md-3">
+      <div class="order-detail text-center">
+        <h3>注文履歴詳細</h3>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <table =class"table" style=”border:none;”>
+      <tr>
+        <th>購入者</th>
+        <td>
+          <%= @order.customer.last_name %>
+          <%= @order.customer.first_name %>
+        </td>
+      </tr>
+      <tr>
+        <th>注文日</th>
+        <td><%= @order.created_at.strftime('%Y/%m/%d/%T') %></td>
+      </tr>
+      <tr>
+        <th>配送先</th>
+        <td>
+          〒<%= @order.postal_code %>
+          <%= @order.address %><br>
+          <%= @order.name %>
+        </td>
+      </tr>
+      <tr>
+        <th>支払方法</th>
+        <td><%= @order.payment_method_i18n %></td>
+      </tr>
+      <tr>
+        <th>注文ステータス</th>
+        <td>
+          <%= form_with model: @order, url: admin_order_path, local: true do |f| %>
+            <%= f.select :order_status, Order.order_statuses.keys.map {|k| [I18n.t("enums.order.order_status.#{k}"), k]} %>
+            <%= f.submit '更新' ,class: "btn btn-primary" %>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      <table class="table table-hover">
+        <thead class="table-secondary">
+          <tr>
+            <th>商品名</th>
+            <th>単価（税込）</th>
+            <th>数量</th>
+            <th>小計</th>
+            <th class="col-md-3">制作ステータス</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @order_details.each do |order_detail| %>
+          <tr>
+            <td><%= order_detail.product.name %></td>
+            <td><%= order_detail.product.add_tax_price%></td>
+            <td><%= order_detail.amount %></td>
+            <td>¥<%= order_detail.item.add_tax_price * order_detail.amount %></td>
+            <td>
+              <%= form_with model: order_detail, url: admin_order_detail_path(order_detail), local: true do |f| %>
+                <%= f.select :production_status, OrderDetail.production_statuses.keys.map {|k| [I18n.t("enums.order_detail.production_status.#{k}"), k]} %>
+                <%= f.submit '更新' ,class: "btn btn-primary" %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 d-flex align-items-end">
+      <table =class"table" style=”border:none;” >
+        <tr>
+          <th>商品合計</th>
+          <td><%= @total_price %>円</td>
+        </tr>
+        <tr>
+          <th>送料</th>
+          <td><%= @order.shipping_cost %>円</td>
+        </tr>
+        <tr>
+          <th>請求金額合計</th>
+          <td><%= @total_bill_maney %>円</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
